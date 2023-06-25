@@ -1,7 +1,7 @@
 "use client";
 import FormLogin from "../Components/FormLogin";
 import { useEffect, useState } from "react";
-import ChatPage, { Message } from "./chat/page";
+import ChatPage, { Message } from "./chat/ChatPage";
 import socket from "../socket";
 
 export default function Home() {
