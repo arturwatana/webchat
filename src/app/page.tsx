@@ -10,15 +10,6 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [updateMessages, setUpdateMessages] = useState<boolean>(false);
 
-  function getMessages() {
-    socket.on("get messages", (data) => {
-      setMessages(data);
-    });
-  }
-  useEffect(() => {
-    getMessages();
-  }, []);
-
   useEffect(() => {
     if (updateMessages) {
       socket.on("room message", (data) => {

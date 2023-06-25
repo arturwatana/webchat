@@ -1,7 +1,7 @@
 "use client";
 import Message from "../../Components/Message";
 import socket from "../../socket";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type Message = {
   text: string;
@@ -33,6 +33,12 @@ export default function ChatPage({
     });
   }
 
+  function handleEnter(e: any) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  }
+
   function sendMessage() {
     socket.emit("chat message", message);
     setMessage(() => ({
@@ -61,7 +67,7 @@ export default function ChatPage({
           ))
         )}
       </div>
-      <div className="h-12 flex justify-between ">
+      <div className="h-12 flex justify-between " onKeyDown={handleEnter}>
         <input
           type="text"
           className="w-11/12 h-full rounded-full p-3"
