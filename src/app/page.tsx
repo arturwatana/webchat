@@ -22,15 +22,12 @@ export default function Home() {
   useEffect(() => {
     if (updateMessages) {
       socket.on("room message", (data) => {
-        messages.push(data);
+        setMessages(data);
       });
       setUpdateMessages(false);
     }
   }, [updateMessages]);
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
   return (
     <main className="flex min-h-screen bg-primary flex-col items-center justify-center p-24 bg-bgPrimary">
       {!loggedIn ? (

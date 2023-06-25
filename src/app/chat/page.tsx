@@ -45,6 +45,9 @@ export default function ChatPage({
   return (
     <div className=" w-full flex gap-5 flex-col ">
       <div className=" h-70vh rounded-xl bg-messagesBg p-8 flex flex-col gap-3 overflow-auto">
+        <p className="w-full text-center font-bold">
+          {` Logado como ${username}`}{" "}
+        </p>
         {!messages ? (
           <p>Carregando mensagens...</p>
         ) : (
