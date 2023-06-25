@@ -1,22 +1,74 @@
-export default function ChatPage() {
+"use client";
+import Message from "../../Components/Message";
+import socket from "../../socket";
+import { useEffect, useState } from "react";
+
+export type Message = {
+  text: string;
+  username: string;
+  id?: string;
+};
+
+type ChatProps = {
+  username: string;
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function ChatPage({
+  username,
+  messages,
+  setUpdateMessages,
+}: ChatProps) {
+  const [message, setMessage] = useState<Message>({
+    text: "",
+    username: "",
+  });
+
+  function handleMessage(e: any) {
+    setMessage({
+      text: e.target.value,
+      username,
+    });
+  }
+
+  function sendMessage() {
+    socket.emit("chat message", message);
+    setMessage(() => ({
+      text: "",
+      username,
+    }));
+    setUpdateMessages(true);
+  }
+
   return (
     <div className=" w-full flex gap-5 flex-col ">
-      <div className=" h-88vh rounded-xl bg-messagesBg p-8 flex flex-col gap-3">
-        <div className="flex flex-col gap-2 items-end w-full ">
-          <p className="border-2 border-gray-900 w-fit p-3 rounded-full">
-            Ola, sou uma mensagem
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="">Artur:</h1>
-          <p className="border-2 border-gray-900 w-fit p-3 rounded-full">
-            Ola, sou uma mensagem
-          </p>
-        </div>
+      <div className=" h-70vh rounded-xl bg-messagesBg p-8 flex flex-col gap-3 overflow-auto">
+        {!messages ? (
+          <p>Carregando mensagens...</p>
+        ) : (
+          messages.map((message) => (
+            <Message
+              key={message.id}
+              text={message.text}
+              username={message.username === username ? "me" : message.username}
+              id={message.id || ""}
+            />
+          ))
+        )}
       </div>
       <div className="h-12 flex justify-between ">
-        <input type="text" className="w-11/12 h-full rounded-full p-3" />
-        <button className="w-7% rounded-full bg-actionBtn text-white">
+        <input
+          type="text"
+          className="w-11/12 h-full rounded-full p-3"
+          onChange={handleMessage}
+          value={message.text}
+        />
+        <button
+          className="w-7% rounded-full bg-actionBtn text-white"
+          onClick={sendMessage}
+        >
           Enviar
         </button>
       </div>

@@ -1,6 +1,27 @@
-import Link from "next/link";
+"use client";
 
-export default function FormLogin() {
+import socket from "../socket";
+
+type FormProps = {
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  username: string;
+};
+
+export default function FormLogin({
+  setLoggedIn,
+  setUsername,
+  username,
+}: FormProps) {
+  function handleInputChange(e: any) {
+    setUsername(e.target.value);
+  }
+
+  function sendUsername(e: any) {
+    socket.emit("username", username);
+    setLoggedIn(true);
+  }
+
   return (
     <form
       action=""
@@ -17,14 +38,16 @@ export default function FormLogin() {
             type="text"
             id="username"
             className="rounded-full p-1 text-black text-center"
+            onChange={handleInputChange}
           />
         </div>
-        <Link
+        <button
+          type="button"
           className="bg-actionBtn rounded-full w-4/5 p-1 text-center"
-          href="/chat"
+          onClick={sendUsername}
         >
-          <button type="button">Entrar</button>
-        </Link>
+          Entrar
+        </button>
       </div>
     </form>
   );
