@@ -8,7 +8,7 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [updateMessages, setUpdateMessages] = useState<boolean>(false);
+  const [updateMessages, setUpdateMessages] = useState<boolean>(true);
 
   useEffect(() => {
     if (updateMessages) {

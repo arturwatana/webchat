@@ -19,6 +19,7 @@ type ChatProps = {
 export default function ChatPage({
   username,
   messages,
+  setMessages,
   setUpdateMessages,
 }: ChatProps) {
   const [message, setMessage] = useState<Message>({
